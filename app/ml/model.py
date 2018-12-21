@@ -1,3 +1,6 @@
+from pathlib import Path
+
+import torch
 from torch import nn as nn
 from torch.nn import functional as F
 
@@ -19,3 +22,12 @@ class SimpleConv(nn.Module):
         x = F.relu(self.fc1(x))
         x = self.fc2(x)
         return F.log_softmax(x, dim=1)
+
+
+def load_model(device, trained_model: Path = None) -> torch.nn.Module:
+    model = SimpleConv()
+    if trained_model:
+        model.load_state_dict(torch.load(str(trained_model)))
+
+    model.to(device)
+    return model

@@ -6,16 +6,16 @@ import torch.optim as optim
 
 from app.config.path_manager import PathManager
 from app.ml.dataset import get_data_loader
-from app.ml.model import SimpleConv
+from app.ml.model import load_model
 
 
-def train(model: torch.nn.Module, device: str, train_loader: torch.utils.data.DataLoader,
+def train(model: torch.nn.Module, device: torch.device, train_loader: torch.utils.data.DataLoader,
           optimizer: torch.optim.Optimizer, epoch: int, log_interval: int):
     """
     One train iteration in training phase.
     Args:
         model: torch.nn.Module: model to train.
-        device: str: specify the device to map data. should be `cuda` or `cpu`
+        device: torch.device: specify the device to map data. should be `cuda` or `cpu`
         train_loader: DataLoader: a data loader which include train data.
         optimizer: torch.optim.Optimizer:
         epoch: int: num of train epochs.
@@ -35,12 +35,12 @@ def train(model: torch.nn.Module, device: str, train_loader: torch.utils.data.Da
                        100. * batch_idx / len(train_loader), loss.item()))
 
 
-def test(model: torch.nn.Module, device: str, test_loader: torch.utils.data.DataLoader):
+def test(model: torch.nn.Module, device: torch.device, test_loader: torch.utils.data.DataLoader):
     """
     One test iteration in the training phase.
     Args:
         model: torch.nn.Module: model to train.
-        device: str: specify the device to map data. should be `cuda` or `cpu`
+        device: torch.device: specify the device to map data. should be `cuda` or `cpu`
         test_loader: DataLoader: a data loader which include test data.
     """
     model.eval()
@@ -84,7 +84,7 @@ def main():
     device = torch.device("cuda" if use_cuda else "cpu")
 
     train_loader, test_loader = get_data_loader(args.batch_size, args.test_batch_size, use_cuda)
-    model = SimpleConv().to(device)
+    model = load_model(device=device)
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
 
     # training
