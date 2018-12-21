@@ -11,6 +11,16 @@ from app.ml.model import SimpleConv
 
 def train(model: torch.nn.Module, device: str, train_loader: torch.utils.data.DataLoader,
           optimizer: torch.optim.Optimizer, epoch: int, log_interval: int):
+    """
+    One train iteration in training phase.
+    Args:
+        model: torch.nn.Module: model to train.
+        device: str: specify the device to map data. should be `cuda` or `cpu`
+        train_loader: DataLoader: a data loader which include train data.
+        optimizer: torch.optim.Optimizer:
+        epoch: int: num of train epochs.
+        log_interval: an interval of log output.
+    """
     model.train()
     for batch_idx, (data, target) in enumerate(train_loader):
         data, target = data.to(device), target.to(device)
@@ -26,6 +36,13 @@ def train(model: torch.nn.Module, device: str, train_loader: torch.utils.data.Da
 
 
 def test(model: torch.nn.Module, device: str, test_loader: torch.utils.data.DataLoader):
+    """
+    One test iteration in the training phase.
+    Args:
+        model: torch.nn.Module: model to train.
+        device: str: specify the device to map data. should be `cuda` or `cpu`
+        test_loader: DataLoader: a data loader which include test data.
+    """
     model.eval()
     test_loss = 0
     correct = 0

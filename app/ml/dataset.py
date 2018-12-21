@@ -5,6 +5,16 @@ from torchvision import transforms, datasets
 
 
 def get_data_loader(batch_size: int, test_batch_size: int, use_cuda: bool) -> Tuple[DataLoader, DataLoader]:
+    """
+    Prepare a data loader for each training and testing.
+    Args:
+        batch_size: int: num of batch size in training.
+        test_batch_size: int: num of batch size in testing.
+        use_cuda: bool: specify whether to use gpu or not.
+
+    Returns:
+        a tuple of data loader for training and testing.
+    """
     train_transform = transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize((0.1307,), (0.3081,))])
