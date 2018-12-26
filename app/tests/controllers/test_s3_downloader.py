@@ -1,4 +1,6 @@
 import unittest
+import warnings
+
 from app.controllers import s3_downloader
 from pathlib import Path
 import os
@@ -6,6 +8,11 @@ import os
 
 @unittest.skipIf(os.getenv("CIRCLECI", False), "Skip test on circle ci.")
 class TestS3Downloader(unittest.TestCase):
+    def setUp(self):
+        # ignore boto3 unresolved warnings
+        # https://github.com/boto/boto3/issues/454
+        warnings.filterwarnings("ignore", category=ResourceWarning, message="unclosed.*<ssl.SSLSocket.*>")
+
     def test_session(self):
         session = s3_downloader.create_session()
         path_list = set(
