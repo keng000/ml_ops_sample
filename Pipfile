@@ -9,6 +9,9 @@ verify_ssl = true
 flask = "==1.0.2"
 uwsgi = "==2.0.17.1"
 pyyaml = "*"
+torch = "*"
+torchvision = "*"
+pillow = "*"
 
 [requires]
-python_version = "3.5"
+python_version = "3.6"
