@@ -38,6 +38,7 @@ def download(src_path_in_s3: Union[str, Path], dst_path_in_local: Union[str, Pat
         aws_secret_access_key=aws_secret_access_key)
 
     # TODO: add error handling(file not found in s3, client initializing error)
+    logger.info(f"Start downloading: {dst_path_in_local}")
     client.download_file(bucket_name, src_path_in_s3, dst_path_in_local)
     logger.info(f"File downloaded: {dst_path_in_local}")
 
