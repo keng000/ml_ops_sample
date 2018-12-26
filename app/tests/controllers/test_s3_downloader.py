@@ -1,8 +1,10 @@
 import unittest
 from app.controllers import s3_downloader
 from pathlib import Path
+import os
 
 
+@unittest.skipIf(os.getenv("CIRCLECI", False), "Skip test on circle ci.")
 class TestS3Downloader(unittest.TestCase):
     def test_session(self):
         session = s3_downloader.create_session()
