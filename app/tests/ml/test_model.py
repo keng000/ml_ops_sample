@@ -15,7 +15,7 @@ class TestModel(unittest.TestCase):
             device = torch.device(device)
             with self.subTest(f"Device {device}"):
                 model = load_model(device)
-                self.assertTrue(isinstance(torch.nn.Module, model))
+                self.assertTrue(isinstance(model, torch.nn.Module))
 
 
 if __name__ == '__main__':
