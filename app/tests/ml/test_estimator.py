@@ -5,11 +5,12 @@ from PIL import Image
 
 from app.ml.estimator import estimate
 from app.ml.model import load_model
+from pathlib import Path
 
 
 class TestEstimator(unittest.TestCase):
     def test_estimate(self):
-        image = Image.open('./datas/sample.jpg')
+        image = Image.open(Path(__file__).resolve().parent / 'datas' / 'sample.jpg')
 
         devices = ["cpu"]
         if torch.cuda.is_available():
