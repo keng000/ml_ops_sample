@@ -10,8 +10,6 @@ jobs:
         - master
         - develop
 
-    working_directory: ~/
-
     steps:
       - checkout
 
