@@ -34,7 +34,7 @@ def load_model(device, trained: bool = False) -> torch.nn.Module:
     if trained:
         trained_model_path = PathManager.get_trained_model_path('mnist_cnn')
         model_verify(trained_model_path)
-        model.load_state_dict(torch.load(str(trained_model_path)))
+        model.load_state_dict(torch.load(str(PathManager.MODEL_DIR / trained_model_path)))
         logger.info(f'trained model loaded: {trained_model_path}')
 
     model.to(device)

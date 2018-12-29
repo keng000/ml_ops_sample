@@ -10,5 +10,6 @@ logger = getLogger(__name__)
 def model_verify(relative_trained_model_path: Path):
     trained_model_path = PathManager.MODEL_DIR / relative_trained_model_path
     if not trained_model_path.exists():
-        download(relative_trained_model_path, trained_model_path)
+        trained_model_path_on_s3 = Path('trained_models') / relative_trained_model_path
+        download(trained_model_path_on_s3, trained_model_path)
         logger.info(f"trained model downloaded: {relative_trained_model_path}")
