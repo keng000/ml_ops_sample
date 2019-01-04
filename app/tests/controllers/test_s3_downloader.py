@@ -6,7 +6,6 @@ from pathlib import Path
 from app.controllers import s3_downloader
 
 
-@unittest.skipIf(os.getenv("CIRCLECI", False), "Skip test on circle ci.")
 class TestS3Downloader(unittest.TestCase):
     def setUp(self):
         # ignore boto3 unresolved warnings
