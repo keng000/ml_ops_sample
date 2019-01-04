@@ -77,8 +77,6 @@ class EstimateAPI:
 
     @staticmethod
     def _parse_requests(key: str, default=None):
-        m = request.method
-        l = request.args
         try:
             return request.args[key]
         except KeyError:
