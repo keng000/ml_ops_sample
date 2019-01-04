@@ -26,7 +26,9 @@ def hc():
 
 # global variables for ML
 from app.ml.model import load_model
-USE_GPU = os.getenv('USE_GPU') is not None
+
+env_USE_GPU = os.getenv('USE_GPU')
+USE_GPU = not (env_USE_GPU is None or env_USE_GPU == '0')
 DEVICE = 'cuda' if USE_GPU else 'cpu'
 MODEL = load_model(device=DEVICE, trained=True)
 
