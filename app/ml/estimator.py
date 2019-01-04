@@ -3,9 +3,8 @@ import argparse
 import torch
 from PIL import Image
 
-from app.config.path_manager import PathManager
-from app.ml.model import load_model
 from app.ml.dataset import get_test_transform
+from app.ml.model import load_model
 
 
 def estimate(data: Image, model: torch.nn.Module, device: torch.device) -> int:
@@ -42,7 +41,7 @@ def main():
     device = torch.device("cuda" if use_cuda else "cpu")
 
     # load model
-    model = load_model(device, trained_model=PathManager.MODEL_DIR / 'mnist_cnn.pth')
+    model = load_model(device, trained=True)
 
     # load image
     image = Image.open(args.image_path)

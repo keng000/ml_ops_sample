@@ -1,8 +1,13 @@
-from pathlib import Path
+from logging import getLogger
 
 import torch
 from torch import nn as nn
 from torch.nn import functional as F
+
+from app.ml.utilities import model_verify
+from ..config.path_manager import PathManager
+
+logger = getLogger(__name__)
 
 
 class SimpleConv(nn.Module):
@@ -24,10 +29,13 @@ class SimpleConv(nn.Module):
         return F.log_softmax(x, dim=1)
 
 
-def load_model(device, trained_model: Path = None) -> torch.nn.Module:
+def load_model(device, trained: bool = False) -> torch.nn.Module:
     model = SimpleConv()
-    if trained_model:
-        model.load_state_dict(torch.load(str(trained_model)))
+    if trained:
+        trained_model_path = PathManager.get_trained_model_path('mnist_cnn')
+        model_verify(trained_model_path)
+        model.load_state_dict(torch.load(str(PathManager.MODEL_DIR / trained_model_path), map_location=lambda storage, loc: storage))
+        logger.info(f'trained model loaded: {trained_model_path}')
 
     model.to(device)
     return model
