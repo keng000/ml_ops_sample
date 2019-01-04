@@ -1,11 +1,11 @@
 import unittest
+from pathlib import Path
 
 import torch
 from PIL import Image
 
 from app.ml.estimator import estimate
 from app.ml.model import load_model
-from pathlib import Path
 
 
 class TestEstimator(unittest.TestCase):

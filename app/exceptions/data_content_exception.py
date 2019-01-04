@@ -1,0 +1,2 @@
+class DataContentException(Exception):
+    pass

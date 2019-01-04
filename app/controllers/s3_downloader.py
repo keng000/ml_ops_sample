@@ -3,7 +3,6 @@ import tempfile
 from contextlib import contextmanager
 from logging import getLogger
 from pathlib import Path
-from typing import Union
 
 import boto3
 from botocore.client import BaseClient
