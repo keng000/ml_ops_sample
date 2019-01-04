@@ -1,0 +1,29 @@
+version: "3"
+services:
+  app:
+    container_name: mlops_app
+    build: ./
+
+    ports:
+      - "3031:3031"
+
+    environment:
+      TZ: "Asia/Tokyo"
+      USE_GPU: 0
+
+  nginx:
+    container_name: mlops_nginx
+    build: ./nginx
+
+    ports:
+      - "8000:8000"
+
+    environment:
+      TZ: "Asia/Tokyo"
+      SERVER_PORT: "8000"
+      LOG_STDOUT: "true"
+      BACKEND_HOST: "app:3031"
+      BACKEND_FAIL_TIMEOUT: "15s"
+
+    links:
+      - app
