@@ -4,12 +4,13 @@ jobs:
     docker:
       - image: circleci/python:3.6.1
         environment:
-          PIPENV_VENV_IN_PROJECT: true
+          PIPENV_VENV_IN_PROJECT: "true"
     branches:
       only:
         - master
         - develop
-
+        - feature/coverge
+        -
     steps:
       - checkout
 
@@ -29,11 +30,21 @@ jobs:
             - ./.venv
           key: v1-{{ checksum "Pipfile.lock" }}
 
+#      - run:
+#          name: run tests
+#          command: |
+#            pipenv run python -m unittest discover app
+
       - run:
           name: run tests
           command: |
-            pipenv run python -m unittest discover app
+            pipenv run coverage -m unittest discover app
+
+      - run:
+          name: coverage report
+          command: |
+            coverage html
 
       - store_artifacts:
-          path: test-reports
-          destination: test-reports
+          path: htmlcov/
+          destination: htmlcov/
