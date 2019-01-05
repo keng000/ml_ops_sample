@@ -9,7 +9,7 @@ jobs:
       only:
         - master
         - develop
-        - feature/coverge
+        - feature/coverage
 
     steps:
       - checkout
