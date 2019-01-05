@@ -1,6 +1,6 @@
 import unittest
 
-from ..config.path_manager import PathManager
+from app.config.path_manager import PathManager
 
 
 class TestPathManager(unittest.TestCase):
