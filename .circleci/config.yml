@@ -10,7 +10,7 @@ jobs:
         - master
         - develop
         - feature/coverge
-        -
+
     steps:
       - checkout
 
