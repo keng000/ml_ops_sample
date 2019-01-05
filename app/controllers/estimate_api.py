@@ -1,30 +1,35 @@
 import base64
+import io
 import sys
-import tempfile
 import traceback
+from logging import getLogger
 
 from PIL import Image
 from flask import request, jsonify
 
 from app.routes import DEVICE, MODEL
-from ..ml.estimator import estimate
 from ..exceptions.data_content_exception import DataContentException
-from logging import getLogger
+from ..ml.estimator import estimate
 
 logger = getLogger(__name__)
 
 
 class EstimateAPI:
-    def __init__(self):
-        base64_encoded_image = self._parse_requests('image')
-        base64_encoded_image = base64_encoded_image.encode()
-        self.image = self.create_tmp_image_from_base64(base64_encoded_image)
-
     def estimate(self):
         response = {}
 
+        base64_encoded_image = self._parse_requests('image')
+        if base64_encoded_image is None:
+            response["result"] = False
+            response["status_code"] = 500
+            response["message"] = "Bad requests. `image` is None"
+            return jsonify(response)
+
+        base64_encoded_image = base64_encoded_image.encode()
+        image = self.create_tmp_image_from_base64(base64_encoded_image)
+
         try:
-            estimated_label = int(estimate(self.image, model=MODEL, device=DEVICE))
+            estimated_label = int(estimate(image, model=MODEL, device=DEVICE))
             logger.info("estimate success")
 
             response["result"] = estimated_label
@@ -63,16 +68,9 @@ class EstimateAPI:
             PIL.Image object
         """
         decoded = base64.b64decode(data)
-
-        with tempfile.NamedTemporaryFile() as fp:
-            fp.write(decoded)
-            try:
-                img = Image.open(fp)
-
-            except IOError:
-                raise DataContentException('The received data is not an image.')
-
-            img.load()
+        fp = io.BytesIO(decoded)
+        img = Image.open(fp)
+        img.load()
         return img
 
     @staticmethod

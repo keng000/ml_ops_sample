@@ -10,7 +10,7 @@ from app.ml.model import load_model
 
 class TestEstimator(unittest.TestCase):
     def test_estimate(self):
-        image = Image.open(Path(__file__).resolve().parent / 'datas' / 'sample.jpg')
+        image = Image.open(Path(__file__).resolve().parents[1] / 'datas' / 'sample.jpg')
 
         devices = ["cpu"]
         if torch.cuda.is_available():
@@ -22,7 +22,3 @@ class TestEstimator(unittest.TestCase):
             with self.subTest(f"Device {device}"):
                 label = estimate(data=image, model=model, device=device)
                 self.assertTrue(0 <= label <= 9)
-
-
-if __name__ == '__main__':
-    unittest.main()

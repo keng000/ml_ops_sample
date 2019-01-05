@@ -44,7 +44,3 @@ class TestS3Downloader(unittest.TestCase):
         finally:
             if local_path.exists():
                 local_path.unlink()
-
-
-if __name__ == '__main__':
-    unittest.main()

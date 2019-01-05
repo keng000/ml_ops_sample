@@ -1,8 +1,14 @@
 import os
-from pathlib import Path
+from logging import getLogger, StreamHandler, INFO, DEBUG
 
-import yaml
-from flask import Flask, request
+from flask import Flask
+
+# setup stream logger
+logger = getLogger()
+handler = StreamHandler()
+handler.setLevel(INFO)
+logger.setLevel(INFO)
+logger.addHandler(handler)
 
 app = Flask(__name__)
 
@@ -31,19 +37,3 @@ env_USE_GPU = os.getenv('USE_GPU')
 USE_GPU = not (env_USE_GPU is None or env_USE_GPU == '0')
 DEVICE = 'cuda' if USE_GPU else 'cpu'
 MODEL = load_model(device=DEVICE, trained=True)
-
-
-if __name__ == '__main__':
-    config_file = Path(__file__).resolve().parents[1] / 'config' / 'api_config_local.yml'
-    with config_file.open('r') as fp:
-        config = yaml.load(fp)
-
-    from logging import getLogger, StreamHandler, DEBUG
-
-    logger = getLogger()
-    handler = StreamHandler()
-    handler.setLevel(DEBUG)
-    logger.setLevel(DEBUG)
-    logger.addHandler(handler)
-
-    app.run(host=config['host'], port=config['port'])
